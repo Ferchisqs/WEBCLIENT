@@ -1,26 +1,34 @@
 body {
-    background-color: #F6F6F6;
-  }
-  
-  .main {
-    height: 100vh;
-    width: 100vw;
-    background-color: #ffffff;
-  }
-  
-  .title {
-    text-align: center;
-    width: 100%;
-    padding: 2%;
-    background-color:#FFCB74;
-    color: #efefef;
-    
-  }
-  
-  .bottom {
-    position: fixed;
-    width: 100%;
-    left: 0;
-    bottom: 0;
-    
-  }
+  background-color: #bae7ff;
+}
+
+.main {
+  height: 100vh;
+  width: 100vw;
+  background-color: #bae7ff;
+}
+
+.title {
+  text-align: center;
+  width: 100%;
+  padding: 2%;
+  background-color: #91d5ff;
+  color: #efefef;
+}
+
+.bottom {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+}
+.notification {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  padding: 10px;
+  background-color: #ffc107;
+  color: #212529;
+  border: 1px solid #ffc107;
+  border-radius: 5px;
+}
