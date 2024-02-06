@@ -5,30 +5,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/antd/dist/antd.css" />
+    <!-- Incluir Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <title>Socket chat</title>
 </head>
 <body>
-    <button onclick="obtenerClientesConectados(3000) " style="background: red; width: 4rem; height: 4rem; border-radius:  1rem;"></button>
-     <div id="root">
+  <div id="contenedorBoton">
+    <!-- Utilizamos un icono de Font Awesome para la notificación -->
+    <button onclick="toggleObtenerClientesConectados(3000)" style="background: none; border: none; cursor: pointer;">
+        <i class="fas fa-bell" style="color: black; font-size: 2rem;"></i>
+    </button>
+  </div>
+  <div id="root">
         
-     </div>
-     <script>
-        
-function obtenerClientesConectados(interval) {
-  fetch("http://localhost:8000/clientes")
-    .then( resp  => resp.json() )
-    .then( data => {
-      const clientesEnLinea = data.clientesEnLinea
-      console.log(clientesEnLinea);
-      const div = document.getElementById("root")
-      const h1 = document.createElement("h1")
-      h1.innerText = clientesEnLinea;
-      div.appendChild(h1)
+  </div>
+  <script>
+    let timeoutId; 
+    let obtenerClientes = false; 
 
-      setTimeout(()=> obtenerClientesConectados(interval),3000)
-    } )
-}
-     </script>
+    function toggleObtenerClientesConectados(interval) {
+     
+      if (obtenerClientes) {
+        clearTimeout(timeoutId); 
+        obtenerClientes = false; 
+      } else { 
+        obtenerClientes = true; 
+        obtenerClientesConectados(interval); 
+      }
+    }
+
+    function obtenerClientesConectados(interval) {
+      fetch("http://localhost:8000/clientes")
+        .then(resp => resp.json())
+        .then(data => {
+          const clientesEnLinea = data.clientesEnLinea
+          console.log(clientesEnLinea);
+          const div = document.getElementById("root")
+          const h1 = document.createElement("h1")
+          h1.innerText = clientesEnLinea;
+          div.appendChild(h1)
+
+          if (obtenerClientes) {
+            timeoutId = setTimeout(() => obtenerClientesConectados(interval), interval);
+          }
+        })
+    }
+  </script>
 </body>
 </html>
-

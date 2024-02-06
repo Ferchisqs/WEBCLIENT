@@ -19,6 +19,10 @@ class App extends Component {
     searchVal: '',
   };
 
+
+
+ 
+
   componentDidMount() {
     client.onopen = () => {
       console.log('WebSocket Client Connected');
@@ -65,6 +69,41 @@ class App extends Component {
   };
 
   render() {
+     const ObtenerNotification =  async()=> {
+      try {
+       const rest = await fetch ("http://localhost:8000/notificacion/new")
+       const data = await rest.json();
+      } catch (error) {
+        console.log(error)
+      }
+      finally{
+       this.ObtenerNotification()
+      }
+     }
+   
+     async function crearNoti(id) {
+      let data = {
+        id: id
+      };
+      try {
+        const rest = await fetch(`http://localhost:8000/notificacion/crear/${id}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
+    
+        const notificationData = await rest.json();
+        this.setState((state) => ({
+          notifications: [...state.notifications, { message: notificationData.message }],
+        }));
+    
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    
     return (
       <div className="main" id="wrapper">
         {this.state.isLoggedIn ? (
@@ -105,7 +144,8 @@ class App extends Component {
             </div>
 
             <div className="bottom">
-              <Search
+              <Search 
+                onClick={() => crearNoti(this.state.userName)} 
                 placeholder="input message and send"
                 enterButton="Send"
                 value={this.state.searchVal}
